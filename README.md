@@ -1,1 +1,46 @@
 # Algorithm-
+RxJava can be simply thought of as a library that gives us an easy to use observer pattern. This means that we have a process to be notified of when data changes, when a task completes, or if there are any errors that happen along the way. 
+
+ 
+ Observables
+ They're two closely related concepts, and you can think of observables as a list of values that you can iterate over. Or really, a list of single events with those values. They are the things that you are watching. This list of values or events changes over time, and you can react to that. You might also hear observers called subscribers, or consumers. And in this course, I'll just call them subscribers. For Rx Java, they are effectively the same thing. Though, in some other flavors of ReactiveX, there are some slight distinctions. 
+ 
+ Subscribers are the things that are doing the watching. The watcher sounds pretty creepy, but all it means is the subscribers just care about when the observables data or state changes. 
+ 
+ Observables can be many things. It could be a continually growing list of UI events, such as taps or button clicks. It could be a single variable that notifies the changes to it over time. It could be a task of complex code that notifies when it's finished. Or, in the simplest case, a bounded array of elements. 
+ 
+ Some examples of these might be a new event from a user interaction, a change event for a title after the data has been updated, a complete event when the network task finishes, or a next element event when you're processing a list of user IDs. A quick glance at some code will be helpful for this. First, we're creating a simple observable for this list of integers. This will allow us to enumerate over the sequence of numbers. But, because this is an observable, nothing really happens until we actually subscribe. 
+
+
+Observable types
+Observable types are like onions. They have layers. There are three types of observables to work with, relays, subjects, and observables.
+
+
+Relay 
+
+Will fit most of your needs
+Get and set anytime.
+Can subscribes when it changes.
+Hot Observable.
+Never error out or complete.
+
+Subjects.
+
+Can recieve onError or onComplete eventes
+"Die" after onError or onComplete eventen
+These can also be subscribers and observables.
+Hot Observable.
+
+
+Subjects have three types: behavior, publish, and replay.
+A behavior subject receives the last event or the default value if there are no events. Behavior only gives its most current value and notifies of changes to that value. It has no default or otherwise. 
+Publish subjects only get new values. 
+Replay subjects have a buffer of events that they will share.
+
+One thing to note, all subjects will receive onError and onCompleted events. This means that they can error out or die and are not ideal for stuff in the UI layer.
+
+Traits
+When use Trails? when one-off call like a network call or something that wraps a single result.
+They are single (onNext, onError) , completable (onCompleted, onError), and maybe (onNext/onCompleted, onError). 
+Singles will receive only one onNext or one onError event. They won't receive a complete or undisposed events. 
+Completables will only receive one complete or error event. They won't receive onNext at all, or a disposable event. And maybes will receive only one onNext or one completed event, but not both, and possibly, an error event. 
