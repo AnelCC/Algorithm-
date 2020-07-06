@@ -1,12 +1,12 @@
 package com.anelcc.simplerxjava.activities.networkexample
 
-import NetworkExamplePresenter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anelcc.simplerxjava.R
 import com.anelcc.simplerxjava.activities.networkexample.recycler.MessageViewAdapter
+import com.anelcc.simplerxjava.activities.networkexample.NetworkExamplePresenter
 import kotlinx.android.synthetic.main.activity_network_example.*
 
 class NetworkExampleActivity : AppCompatActivity() {

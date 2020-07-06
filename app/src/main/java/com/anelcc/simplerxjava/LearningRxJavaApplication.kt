@@ -6,6 +6,7 @@ import com.anelcc.simplerxjava.common.fromJson
 import com.anelcc.simplerxjava.modellayer.persistencelayer.LocalDatabase
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PersistenceLayer
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PhotoDescription
+import com.anelcc.simplerxjava.simpleexamples.SimpleRX
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

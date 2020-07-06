@@ -66,10 +66,10 @@ class PersistenceLayer {
 
     private fun getDescriptions(finished: PhotoDescriptionLambda) {
         LearningRxJavaApplication.database.photoDescriptionDao()
-                .getDescriptions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(finished)
+            .getDescriptions()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(finished)
     }
 }
 
@@ -80,13 +80,13 @@ abstract class LocalDatabase: RoomDatabase() {
 
 @Entity(tableName = "photo_descriptions")
 data class PhotoDescription(
-        @PrimaryKey(autoGenerate = true)
-        var uid: Long = 0,
-        var albumId: Int?,
-        var id: Int?,
-        var title: String?,
-        var url: String?,
-        var thumbnailUrl: String?
+    @PrimaryKey(autoGenerate = true)
+    var uid: Long = 0,
+    var albumId: Int?,
+    var id: Int?,
+    var title: String?,
+    var url: String?,
+    var thumbnailUrl: String?
 )
 
 @Dao
