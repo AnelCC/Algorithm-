@@ -20,17 +20,14 @@ class LearningRxJavaApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         println("Simple App being used.")
 
         setupDatabase()
 
-
-        SimpleRX.simpleValues()
+        // SimpleRX.simpleValues()
+        SimpleRX.subjects()
 
     }
-
-    //region Database Setup Methods
 
     fun setupDatabase(){
         database = Room.databaseBuilder(this, LocalDatabase::class.java, "LearningRxJavaLocalDatabase").build()

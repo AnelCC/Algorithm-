@@ -44,3 +44,12 @@ When use Trails? when one-off call like a network call or something that wraps a
 They are single (onNext, onError) , completable (onCompleted, onError), and maybe (onNext/onCompleted, onError). 
 Singles will receive only one onNext or one onError event. They won't receive a complete or undisposed events. 
 Completables will only receive one complete or error event. They won't receive onNext at all, or a disposable event. And maybes will receive only one onNext or one completed event, but not both, and possibly, an error event. 
+
+
+What are Subjects?
+A Subject extends an Observable and implements Observer at the same time.
+It acts as an Observable to clients and registers to multiple events taking place in the app.
+It acts as an Observer by broadcasting the event to multiple subscribers.
+
+Subjects can act as both an Observer and an Observable.
+Subjects are considered as HOT Observables.

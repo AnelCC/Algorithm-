@@ -2,6 +2,7 @@ package com.anelcc.simplerxjava.simpleexamples
 
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
 
 
 //What is a disposable?
@@ -34,9 +35,45 @@ object SimpleRX {
             println("🦄 value has changed: $newValue")
         }
 
-
         //NOTE: Relays will never receive onError, and onComplete events
         someInfo.accept("3")
 
+    }
+
+    /*
+    * The next thing for us to look at, is a behavior subject.
+    * Subject that emits the most recent item it has observed
+    * and all subsequent observed items to each subscribed Observer.
+    * Subjects can act as both an Observer and an Observable.
+    * Subjects are considered as HOT Observables.
+    * */
+    fun subjects() {
+        /*
+        * Create a subject and emit a single integer from the subject.
+        * (Subject is acting as an Observable in this case)
+        * */
+        val behaviorSubject = BehaviorSubject.createDefault(24)
+
+        /*
+        *Subscribe to the Subject - emissions from the subject will be printed
+        * */
+        val disposable = behaviorSubject.subscribe({ newValue -> //onNext
+            println("🕺 behaviorSubject subscription: $newValue")
+        }, { error -> //onError
+            println("🕺 error: ${ error.localizedMessage }")
+        }, { //onCompleted
+            println("🕺 completed")
+        }, { disposable -> //onSubscribed
+            println("🕺 subscribed")
+        })
+
+        /*
+        * Again emit values from subject.
+        * */
+        //we pushed 34, 48, 48, and you can see that in the logs below,
+        // that those values come through to that subscription block as well.
+        behaviorSubject.onNext(34)
+        behaviorSubject.onNext(48)
+        behaviorSubject.onNext(48) //duplicates show as new events by default
     }
 }
