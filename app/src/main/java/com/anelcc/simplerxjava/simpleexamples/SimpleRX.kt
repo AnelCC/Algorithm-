@@ -23,5 +23,20 @@ object SimpleRX {
         someInfo.accept("2")
         println("🙈 someInfo.value ${ someInfo.value }")
 
+        // the declarative nature of RxJava.
+        // we can tell RxJava what we want, but we don't tell it how to get it.
+        // So in this case, we want to subscribe to the event, but we're not gonna ask for it
+        // specifically like we did on line 16. Okay, so I'll say someInfo.subscribe,
+        // which just means I want to see the new event or the new value coming through.
+        // And we'll just say newValue and we will literally print out that value.
+
+        someInfo.subscribe { newValue ->
+            println("🦄 value has changed: $newValue")
+        }
+
+
+        //NOTE: Relays will never receive onError, and onComplete events
+        someInfo.accept("3")
+
     }
 }
