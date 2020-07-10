@@ -1,8 +1,14 @@
 package com.anelcc.simplerxjava.simpleexamples
 
+import com.anelcc.simplerxjava.common.disposedBy
 import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 //What is a disposable?
@@ -100,5 +106,32 @@ object SimpleRX {
         // observer will receive only onComplete
         behaviorSubject.onComplete()
         behaviorSubject.onNext(10983) //will never show
+    }
+
+    fun basicObservable() {
+        //The observable
+        val observable = Observable.create<String> { observer ->
+            //This lambda is called for every subscriber - by default
+            println("🍄 ~~ Observable logic being triggered ~~")
+
+            //Do work on a background thread
+            CoroutineScope(Dispatchers.IO).launch  {
+                delay(1000) //artificial delay 1 second
+
+                observer.onNext("some value 23")
+                observer.onComplete()
+            }
+        }
+
+        //understand that this observable will be disposed with everything else in that bag.
+        observable.subscribe { someString ->
+            println("🍄 new value: $someString")
+        }.disposedBy(bag)
+
+        val observer = observable.subscribe { someString ->
+            println("🍄 Another subscriber: $someString")
+        }
+
+        observer.disposedBy(bag)
     }
 }
