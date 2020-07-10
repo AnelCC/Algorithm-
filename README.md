@@ -53,3 +53,8 @@ It acts as an Observer by broadcasting the event to multiple subscribers.
 
 Subjects can act as both an Observer and an Observable.
 Subjects are considered as HOT Observables.
+
+Error handling: When the onError(Throwable) is called, the BehaviorSubject enters into a terminal state and emits the same
+Throwable instance to the last set of Observers. During this emission, if one or more Observers dispose their respective Disposables,
+the Throwable is delivered to the global error handler via RxJavaPlugins.onError(Throwable) (multiple times if multiple Observers cancel at once).
+If there were no Observers subscribed to this BehaviorSubject when the onError() was called, the global error handler is not invoked.

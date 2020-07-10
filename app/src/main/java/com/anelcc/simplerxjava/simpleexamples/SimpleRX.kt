@@ -75,5 +75,21 @@ object SimpleRX {
         behaviorSubject.onNext(34)
         behaviorSubject.onNext(48)
         behaviorSubject.onNext(48) //duplicates show as new events by default
+
+        /*
+        * Error handling:
+        * When the onError(Throwable) is called, the BehaviorSubject enters into a terminal state
+        * and emits the same Throwable instance to the last set of Observers. During this emission,
+        * if one or more Observers dispose their respective Disposables,
+        * the Throwable is delivered to the global error handler via RxJavaPlugins.onError(Throwable)
+        * (multiple times if multiple Observers cancel at once).
+        * If there were no Observers subscribed to this BehaviorSubject when the onError() was called,
+        * the global error handler is not invoked.
+        * */
+
+        // observer will receive only onError
+        val someException = IllegalArgumentException("some fake error")
+        behaviorSubject.onError(someException)
+        behaviorSubject.onNext(109) //will never show
     }
 }
