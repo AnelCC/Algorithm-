@@ -50,6 +50,8 @@ What are Subjects?
 A Subject extends an Observable and implements Observer at the same time.
 It acts as an Observable to clients and registers to multiple events taking place in the app.
 It acts as an Observer by broadcasting the event to multiple subscribers.
+When this BehaviorSubject is terminated via onError(Throwable) or onComplete(), the last observed item (if any) is cleared and late Observers only receive the respective terminal event.
+Calling onNext(Object), onError(Throwable) and onComplete() is required to be serialized (called from the same thread or called non-overlappingly from different threads through external means of serialization). 
 
 Subjects can act as both an Observer and an Observable.
 Subjects are considered as HOT Observables.
@@ -58,3 +60,7 @@ Error handling: When the onError(Throwable) is called, the BehaviorSubject enter
 Throwable instance to the last set of Observers. During this emission, if one or more Observers dispose their respective Disposables,
 the Throwable is delivered to the global error handler via RxJavaPlugins.onError(Throwable) (multiple times if multiple Observers cancel at once).
 If there were no Observers subscribed to this BehaviorSubject when the onError() was called, the global error handler is not invoked.
+
+Description copied from interface:
+Observer Notifies the Observer that the Observable has finished sending push-based notifications.
+The Observable will not call this method if it calls Observer.onError(java.lang.Throwable).

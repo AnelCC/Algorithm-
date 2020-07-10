@@ -88,8 +88,17 @@ object SimpleRX {
         * */
 
         // observer will receive only onError
-        val someException = IllegalArgumentException("some fake error")
+        /*val someException = IllegalArgumentException("some fake error")
         behaviorSubject.onError(someException)
-        behaviorSubject.onNext(109) //will never show
+        behaviorSubject.onNext(109) //will never show*/
+
+        /*
+        * Description copied from interface: Observer
+        * Notifies the Observer that the Observable has finished sending push-based notifications.
+        * The Observable will not call this method if it calls Observer.onError(java.lang.Throwable).*/
+
+        // observer will receive only onComplete
+        behaviorSubject.onComplete()
+        behaviorSubject.onNext(10983) //will never show
     }
 }
