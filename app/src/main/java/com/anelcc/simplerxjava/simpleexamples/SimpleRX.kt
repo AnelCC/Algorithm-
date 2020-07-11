@@ -3,12 +3,15 @@ package com.anelcc.simplerxjava.simpleexamples
 import com.anelcc.simplerxjava.common.disposedBy
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.toObservable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 
 //What is a disposable?
@@ -133,5 +136,24 @@ object SimpleRX {
         }
 
         observer.disposedBy(bag)
+    }
+
+    //Easy methods to create simple values
+    // There's lots of different ways to create these simple one-off values, and when would you use this?
+    // Well, I think having a list of user IDs or something that you want to push into a stream over time,
+    // that's a great time when you would use this. Otherwise, you would create an observable the way that we did in this basic observable.
+    //e.g where we're creating this whole lambda, and it actually does some work underneath.
+    fun creatingObservables () {
+        //It can determine the value by what you pass in. It can determine the value by what you pass in.
+        // All of these are just generic containers.
+        //val observable = Observable.just("ANEL Elizabeth")
+
+        //You could also use a timer
+        //val observable = Observable.interval(300, TimeUnit.MICROSECONDS).timeInterval(AndroidSchedulers.mainThread())
+
+        //Also, arrays of values are pretty normal for you to work with.
+        val userIds = arrayOf(1,2,3,4,5,6)
+        //val observable = Observable.fromArray(*userIds)
+        val observable = userIds.toObservable()
     }
 }
