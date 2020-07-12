@@ -73,3 +73,9 @@ The following are the different types of Observables in RxJava
 - Single
 - Maybe
 - Completable
+
+#### Types of Observables:
+- Flowable: Emit a stream of elements (endlessly, with backpressure) Backpressure is a means of handling the situation where data is generated faster than it can be processed
+- Single: Single is an Observable which only emits one item or throws an error. Single emits only one value and applying some of the operator makes no sense.
+- Maybe: Maybe is similar to Single but this time, it allows your observable the ability to not emit any item at all. The MaybeObserver is defined as follows.
+- Completable: This observable is only concerned about two things, if some action is executed or an error is encountered.
