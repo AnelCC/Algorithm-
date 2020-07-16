@@ -4,8 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.anelcc.simplerxjava.R
 import com.anelcc.simplerxjava.modellayer.entities.Posting
+import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.item_message.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,8 +53,21 @@ class BasicExampleActivity : AppCompatActivity() {
     }
 
     //region Rx Code
+    //This just says however those come in on whatever network thread,
+    // I don't care, just make sure that the results come in on the main thread.
+    // And we'll look more at what that means versus what this subscribeOn means.
     private fun realSingleExample() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //load data and set in TextView
+        loadPostAsSingle().observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ posting ->
+                userIdTextView.text = posting.title
+                bodyTextView.text = posting.body
+            }, {error ->
+                print("❗️ an error occured: ${error.localizedMessage}")
+                userIdTextView.text = "❗"
+                bodyTextView.text = "❗"
+            })
     }
 
     private fun loadPostAsSingle(): Single<Posting> {
@@ -77,5 +94,12 @@ class BasicExampleActivity : AppCompatActivity() {
             })
         }
     }
+
+    //we will clear the bag out, which means all of our subscriptions are released and
+    // we won't have any memory leaks or issues with things that don't actually exist anymore.
     //endregion
+    override fun onDestroy() {
+        super.onDestroy()
+        bag.clear()
+    }
 }
