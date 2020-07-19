@@ -23,15 +23,15 @@ class NetworkLayer {
         placeHolderApi = ServiceGenerator.createService(JsonPlaceHolder::class.java)
     }
 
-
     //region End Point - SemiRx Way
-
     fun getMessages(success: MessagesLambda, failure: StringLambda) {
+        // give as a callback that will return a list of Messages
         val call = placeHolderApi.getMessages()
 
         call.enqueue(object: Callback<List<Message>> {
             override fun onResponse(call: Call<List<Message>>?, response: Response<List<Message>>?) {
                 val article = parseRespone(response)
+                //it parse correctly we will return articles
                 success(article)
             }
 
