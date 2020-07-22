@@ -7,11 +7,10 @@ import io.reactivex.disposables.CompositeDisposable
 
 class NetworkExamplePresenter {
     private val modelLayer = ModelLayer.shared //normally injected
-
-    val message: BehaviorRelay<List<Message>>
-    get() = modelLayer.messages
-
     private var bag = CompositeDisposable()
+
+    val messages: BehaviorRelay<List<Message>>
+        get() = modelLayer.messages
 
     init {
         modelLayer.getMessages()
