@@ -1,11 +1,18 @@
 package com.anelcc.simplerxjava.modellayer.networklayer
 
+import com.github.kittinunf.result.Result
+import com.anelcc.simplerxjava.common.NullBox
 import com.anelcc.simplerxjava.common.StringLambda
 import com.anelcc.simplerxjava.common.VoidLambda
 import com.anelcc.simplerxjava.modellayer.entities.Message
+import com.anelcc.simplerxjava.modellayer.entities.Person
 import com.anelcc.simplerxjava.modellayer.networklayer.EndpointInterfaces.JsonPlaceHolder
 import com.anelcc.simplerxjava.modellayer.networklayer.helpers.ServiceGenerator
 import io.reactivex.Single
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -114,6 +121,24 @@ class NetworkLayer {
         } else {
             val text = "responseBody == null"
             println("$text")
+        }
+    }
+
+    //The important part is to show you how we can group tasks. 
+    // So you could easily put a network call in here, or something else. 
+    //Create a Network Task
+    fun getInfoFor(person: Person, finished:(Result<NullBox<String>, Exception>) -> Unit) {
+        //Execute on Background Thread
+        //Do your task here
+        CoroutineScope(Dispatchers.IO).launch {
+            println("start network call: $person")
+            val randomTime = person.age * 1000L// to milliseconds
+            delay(randomTime)
+            print("finished network call: $person")
+
+            //just randomly make odd people null
+            var result = Result.of(NullBox(person.toString()))
+            finished(result)
         }
     }
 
