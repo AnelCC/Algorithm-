@@ -5,6 +5,7 @@ import com.anelcc.simplerxjava.modellayer.networklayer.NetworkLayer
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PersistenceLayer
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PhotoDescription
 import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Single
 
 //Now the model layer for us has our network piece and our persistent piece which really is our database portion of this.
 //It doesn't know where, it doesn't care, it just wants whatever data comes back from either of those layers.
@@ -45,5 +46,10 @@ class ModelLayer {
     private fun notifyOfError(errorMessage: String) {
         //notify user somehow
         println("❗️ Error occurred: $errorMessage")
+    }
+
+    //New Way use a way more reactive process
+    fun getMessagesRx(): Single<List<Message>> {
+        return networkLayer.getMessagesRx()
     }
 }

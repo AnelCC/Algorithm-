@@ -22,4 +22,14 @@ interface JsonPlaceHolder {
 
     //endregion
 
+    //region Rx Methods Return Reactive methods
+    //This way we can use the same type of arguments just say Rx, but instead of a Call, we're gonna return a Single.
+    @GET("/posts")
+    fun getMessagesRx(): Single<List<Message>>
+
+    @GET("/posts/{articleId}")
+    fun getMessageRx(@Path("articleId") articleId: String): Single<Message>
+
+    @POST("/posts")
+    fun postMessageRx(@Body message: Message): Single<Message>
 }

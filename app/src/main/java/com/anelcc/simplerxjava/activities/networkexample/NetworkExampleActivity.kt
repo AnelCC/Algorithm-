@@ -11,6 +11,9 @@ import com.anelcc.simplerxjava.common.disposedBy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_network_example.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NetworkExampleActivity : AppCompatActivity() {
 
@@ -23,15 +26,28 @@ class NetworkExampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_network_example)
 
-        //Notify info from the presenter
+        //Old way
+        /*//Notify info from the presenter
         presenter.messages
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{ messages ->
                 adapter.messages.accept(messages) //messages come through
-            }.disposedBy(bag)
-
+            }.disposedBy(bag)*/
 
         attachUI()
+
+        //New Way
+        CoroutineScope(Dispatchers.IO).launch {
+            loadData()
+        }
+    }
+
+    //New Way use a way more reactive process
+    private fun loadData() {
+        presenter.getMessagesRx()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { messages -> adapter.messages.accept(messages) }
+            .disposedBy(bag)
     }
 
     private fun attachUI() {
