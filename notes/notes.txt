@@ -94,3 +94,44 @@ Feedback
 Yes, the callback signature has an onSuccess event to work with instead of onNext
 -------------------------------------------------------------------------------------------------
 
+RxJava doesn't work well with Architecture? FALSE
+
+Feedback
+Correct, it's False. RxJava can work really well, especially if you just bubble up events through
+the different layers.
+-------------------------------------------------------------------------------------------------
+The Model Layer may need to run code on the main thread after a network or database call? TRUE
+
+
+Feedback
+Yes. A good rule to follow is whichever layer left the main thread,
+is responsible for joining back to the main thread.
+If this isn't possible do it the next layer up -
+and always observe on the main thread in the View layer.
+-------------------------------------------------------------------------------------------------
+What is the best API design to use for the data layer? Asynchronous
+
+Feedback
+Correct. It's easier to always have the same api, and some calls must be asynchronous,
+so making all api's asynchronous gives us a single pattern for getting data.
+-------------------------------------------------------------------------------------------------
+
+When using room or sqlite, we don't have to worry about threading and contexts to the database?
+TRUE
+
+Feedback
+Room and sqlite typically have the results moved to a POKO class immediately.
+If you use cursors, or databases such as Realm, you will have to worry about threading and bridging data.
+-------------------------------------------------------------------------------------------------
+What is Retrofit? An incredible library that simplifies networking
+
+Feedback
+
+-------------------------------------------------------------------------------------------------
+
+Retrofit with RxJava can make things even easier? TRUE
+
+Feedback
+True! We can just return Single's and let the upper layers worry about the results or errors.
+Other layers will simple be pass through layers.
+-------------------------------------------------------------------------------------------------
