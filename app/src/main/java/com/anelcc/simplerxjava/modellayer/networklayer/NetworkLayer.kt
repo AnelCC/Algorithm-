@@ -8,6 +8,7 @@ import com.anelcc.simplerxjava.modellayer.entities.Message
 import com.anelcc.simplerxjava.modellayer.entities.Person
 import com.anelcc.simplerxjava.modellayer.networklayer.EndpointInterfaces.JsonPlaceHolder
 import com.anelcc.simplerxjava.modellayer.networklayer.helpers.ServiceGenerator
+import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +44,7 @@ class NetworkLayer {
     fun postMessageRx(message: Message): Single<Message> {
         return placeHolderApi.postMessageRx(message)
     }
-
+    //endregion
 
     //region End Point - SemiRx Way
     fun getMessages(success: MessagesLambda, failure: StringLambda) {
@@ -124,6 +125,31 @@ class NetworkLayer {
         }
     }
 
+
+    //endregion
+
+    //region Task Example
+    //Make one Observable for each person in an list
+
+
+    //Wrap task in Reactive Observable
+    //This pattern is used often for units of work
+    private fun buildGetInfoNetworkCallFor(person: Person): Observable<NullBox<String>> {
+        return Observable.create{ observer ->
+            //Execute Request - Do actual work here
+            getInfoFor(person) { result ->
+                result.fold({ info ->
+                    observer.onNext(info)
+                    observer.onComplete()
+                }, { error ->
+                    //do something with error, or just pass it on
+                    observer.onError(error)
+                })
+            }
+        }
+    }
+
+    //Create a Network Task
     //The important part is to show you how we can group tasks. 
     // So you could easily put a network call in here, or something else. 
     //Create a Network Task
