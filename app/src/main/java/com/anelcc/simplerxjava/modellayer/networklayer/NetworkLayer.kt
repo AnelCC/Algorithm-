@@ -10,6 +10,7 @@ import com.anelcc.simplerxjava.modellayer.networklayer.EndpointInterfaces.JsonPl
 import com.anelcc.simplerxjava.modellayer.networklayer.helpers.ServiceGenerator
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.zip
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -129,8 +130,18 @@ class NetworkLayer {
     //endregion
 
     //region Task Example
-    //Make one Observable for each person in an list
 
+    //Make one Observable for each person in an list
+    fun loadInfoFor(people: List<Person>): Observable<List<String>> {
+        //Foreach person make a network call
+        val networkObservables = people.map(::buildGetInfoNetworkCallFor)
+
+        //when all server results have returned zip observables into a single observable
+        return networkObservables.zip { list ->
+            list.filter { box -> box.value != null }
+                .map { it.value!! }
+        }
+    }
 
     //Wrap task in Reactive Observable
     //This pattern is used often for units of work
