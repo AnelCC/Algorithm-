@@ -139,7 +139,7 @@ class NetworkLayer {
         //when all server results have returned zip observables into a single observable
         return networkObservables.zip { list ->
             list.filter { box -> box.value != null }
-                .map { it.value!! }
+                .map { it.value!! } // we're filtering out any value that's not null, and then we're force unwrapping it.
         }
     }
 
@@ -173,8 +173,17 @@ class NetworkLayer {
             delay(randomTime)
             println("finished network call: $person")
 
-            //just randomly make odd people null
-            var result = Result.of(NullBox(person.toString()))
+            /*//just randomly make odd people null
+            var result = Result.of(NullBox(person.toString()))*/
+
+            // Adding Nulls
+            val isEven = person.age % 2 == 0
+            var result = if(isEven) Result.of(NullBox(person.firstName))
+            else Result.of(NullBox<String>(null))
+
+            // Adding Exceptions
+            // Result.Failure
+
             finished(result)
         }
     }
