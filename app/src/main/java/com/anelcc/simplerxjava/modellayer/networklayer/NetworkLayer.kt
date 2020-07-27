@@ -1,5 +1,6 @@
 package com.anelcc.simplerxjava.modellayer.networklayer
 
+import com.anelcc.simplerxjava.common.EmptyDescriptionException
 import com.github.kittinunf.result.Result
 import com.anelcc.simplerxjava.common.NullBox
 import com.anelcc.simplerxjava.common.StringLambda
@@ -146,7 +147,7 @@ class NetworkLayer {
     //Wrap task in Reactive Observable
     //This pattern is used often for units of work
     private fun buildGetInfoNetworkCallFor(person: Person): Observable<NullBox<String>> {
-        return Observable.create{ observer ->
+        return Observable.create<NullBox<String>> { observer ->
             //Execute Request - Do actual work here
             getInfoFor(person) { result ->
                 result.fold({ info ->
@@ -154,9 +155,11 @@ class NetworkLayer {
                     observer.onComplete()
                 }, { error ->
                     //do something with error, or just pass it on
-                    observer.onError(error)
+                    observer.onError(error) // This is an Exception, if we didn't catch we can break the code
                 })
             }
+        }.onErrorReturn {
+            NullBox(null)  // we added Exceptions but we catch here and add a NullBox as null, and we already filtered nulls in loadInfoFor.
         }
     }
 
@@ -182,6 +185,12 @@ class NetworkLayer {
             else Result.of(NullBox<String>(null))
 
             // Adding Exceptions
+            if(person.age > 3) {
+                result = Result.of {
+                    throw EmptyDescriptionException("This person's age is odd")  // we add Exceptions when are oder that 3
+                }
+            }
+
             // Result.Failure
 
             finished(result)
