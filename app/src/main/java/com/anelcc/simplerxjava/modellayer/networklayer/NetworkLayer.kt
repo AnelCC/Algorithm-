@@ -188,6 +188,7 @@ class NetworkLayer {
             if(person.age > 3) {
                 result = Result.of {
                     throw EmptyDescriptionException("This person's age is odd")  // we add Exceptions when are oder that 3
+                    //This actually generates a result error type, a failure. And it wraps the exception.
                 }
             }
 
