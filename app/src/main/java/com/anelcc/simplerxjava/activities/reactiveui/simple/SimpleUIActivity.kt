@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.anelcc.simplerxjava.R
 import com.anelcc.simplerxjava.common.disposedBy
+import com.anelcc.simplerxjava.modellayer.entities.Friend
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_simple_ui.*
@@ -44,7 +45,18 @@ class SimpleUIActivity : AppCompatActivity() {
         val listItems = presenter.friends.value.map { it.toString() }
 
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
-
         simpleUIListView.adapter = adapter
+
+        presenter.friends.subscribeOn(AndroidSchedulers.mainThread()).subscribe(::updateList)
+    }
+
+    fun updateList(items: List<Friend>) {
+        val itemsArray = items.map {
+            it.description
+        }.toTypedArray()
+
+        adapter.clear()
+        adapter.addAll(*itemsArray)
+        adapter.notifyDataSetChanged()
     }
 }

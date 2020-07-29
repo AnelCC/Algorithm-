@@ -3,10 +3,7 @@ package com.anelcc.simplerxjava.activities.reactiveui.simple
 import com.anelcc.simplerxjava.modellayer.entities.Friend
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SimpleUIPresenter {
     val friends = BehaviorRelay.createDefault(listOf<Friend>())
@@ -39,7 +36,8 @@ class SimpleUIPresenter {
                 Friend("Armando", "Araiza"),
                 Friend("Dolly", "Delapaz"),
                 Friend("Juliane", "Jobin"))
-            CoroutineScope(Dispatchers.IO).launch {
+
+            GlobalScope.launch(Dispatchers.Main) {
                 friends.accept(newFriends)
             }
         }
@@ -53,5 +51,15 @@ class SimpleUIPresenter {
             println("🦄 pushing new value")
             title.onNext("new Value")
         }
+
+        /**
+        // Main/UI Thread
+        GlobalScope.launch(Dispatchers.Main) {
+        }
+
+        // Background Thread
+        GlobalScope.launch(Dispatchers.Default) { // or Dispatchers.IO
+        }
+        **/
     }
 }
