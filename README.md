@@ -104,6 +104,7 @@ but if you always observe on the main thread right before you subscribe you won'
 
 - Kotlin
 - RxJava
+- RxBinding by jakewharton Read [here](https://guides.codepath.com/android/RxJava-and-RxBinding)
 - Room
 - Pattern designs
 - Retrofit
