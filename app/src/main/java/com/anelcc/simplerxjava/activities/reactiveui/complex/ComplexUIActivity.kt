@@ -10,6 +10,7 @@ import com.anelcc.simplerxjava.common.isEven
 import io.reactivex.disposables.CompositeDisposable
 import com.anelcc.simplerxjava.databinding.ActivityComplexUiBinding
 import com.anelcc.simplerxjava.databinding.ItemReactiveUiBinding
+import com.anelcc.simplerxjava.databinding.ItemReactiveUiOtherBinding
 import com.minimize.android.rxrecycleradapter.OnGetItemViewType
 import com.minimize.android.rxrecycleradapter.RxDataSource
 import com.minimize.android.rxrecycleradapter.RxDataSourceSectioned
@@ -62,13 +63,25 @@ class ReactiveUIActivity : AppCompatActivity() {
             ViewHolderInfo(R.layout.item_reactive_ui_other, CellType.ITEM.ordinal)
         )
 
-        val rxDataSourceSectioned = RxDataSourceSectioned(dataset, viewHolderInfoList, object: OnGetItemViewType() {
+        val rxDataSourceSectioned = RxDataSourceSectioned(dataSet, viewHolderInfoList, object: OnGetItemViewType() {
             override fun getItemViewType(position: Int): Int {
                 //determine cell type
                 return if(position.isEven) CellType.ITEM.ordinal
                 else CellType.ITEM2.ordinal
             }
         })
+
+        rxDataSourceSectioned.asObservable().subscribe{
+            val ui = it.viewDataBinding ?: return@subscribe
+            val data = it.item
+
+            when (ui) { //Set two types of views
+                is ItemReactiveUiBinding -> ui.textViewItem.text = "Cell Type 1: $data"
+                is ItemReactiveUiOtherBinding -> ui.textViewItem2.text = "Cell Type 2: $data"
+            }
+        }
+
+        rxDataSourceSectioned.bindRecyclerView(boundActivity.reactiveUIRecyclerView) //bind the RecyclerView
     }
     //endregion
 
