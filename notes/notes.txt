@@ -157,3 +157,28 @@ Feedback
 Right, onError will trigger once then the observable dies.
 Any other onError event that gets pushed will crash the app.
 -------------------------------------------------------------------------------------------------
+
+The easiest way to "bind" data is just updating UI controls in the subscribe block? TRUE
+
+Feedback
+This is much less intrusive than bringing data-binding into your whole project.
+-------------------------------------------------------------------------------------------------
+
+Binding Textviews saves you time and reduces the amount of code needed? FALSE
+
+Feedback
+Binding Textviews doesn't really reduce the code, and doesn't save much time.
+Binding to Lists might be something that is a little more useful.
+-------------------------------------------------------------------------------------------------
+
+When binding views, what does their root element need to be in their layout? A Simply a layout
+
+Feedback
+Just make the root node be a layout.
+-------------------------------------------------------------------------------------------------
+
+RecyclerViews can only show one type of item? FALSE
+
+Feedback
+No. This video was all about how to show multiple types of items in the RecyclerView
+-------------------------------------------------------------------------------------------------
