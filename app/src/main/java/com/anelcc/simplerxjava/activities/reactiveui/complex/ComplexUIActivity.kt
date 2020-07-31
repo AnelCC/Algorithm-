@@ -6,10 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anelcc.simplerxjava.R
 import com.anelcc.simplerxjava.common.disposedBy
+import com.anelcc.simplerxjava.common.isEven
 import io.reactivex.disposables.CompositeDisposable
 import com.anelcc.simplerxjava.databinding.ActivityComplexUiBinding
 import com.anelcc.simplerxjava.databinding.ItemReactiveUiBinding
+import com.minimize.android.rxrecycleradapter.OnGetItemViewType
 import com.minimize.android.rxrecycleradapter.RxDataSource
+import com.minimize.android.rxrecycleradapter.RxDataSourceSectioned
+import com.minimize.android.rxrecycleradapter.ViewHolderInfo
 
 private enum class CellType {
     ITEM,
@@ -26,7 +30,8 @@ class ReactiveUIActivity : AppCompatActivity() {
         setContentView(R.layout.activity_complex_ui)
 
         commonInit()
-        showSimpleBindingExample()
+        //showSimpleBindingExample()
+        showComplexBindingExample()
     }
 
     private fun commonInit() {
@@ -34,6 +39,7 @@ class ReactiveUIActivity : AppCompatActivity() {
         boundActivity.reactiveUIRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
+    //region Stage 1
     private fun showSimpleBindingExample() {
         val rxDataSource = RxDataSource<ItemReactiveUiBinding, String>(R.layout.item_reactive_ui, dataSet)
         rxDataSource.bindRecyclerView(boundActivity.reactiveUIRecyclerView)
@@ -47,6 +53,24 @@ class ReactiveUIActivity : AppCompatActivity() {
                 ui.textViewItem.text = data
             }.disposedBy(bag)
     }
+    //endregion
+
+    //region Stage 2
+    private fun showComplexBindingExample() {
+        val viewHolderInfoList = listOf(
+            ViewHolderInfo(R.layout.item_reactive_ui, CellType.ITEM2.ordinal),
+            ViewHolderInfo(R.layout.item_reactive_ui_other, CellType.ITEM.ordinal)
+        )
+
+        val rxDataSourceSectioned = RxDataSourceSectioned(dataset, viewHolderInfoList, object: OnGetItemViewType() {
+            override fun getItemViewType(position: Int): Int {
+                //determine cell type
+                return if(position.isEven) CellType.ITEM.ordinal
+                else CellType.ITEM2.ordinal
+            }
+        })
+    }
+    //endregion
 
     override fun onDestroy() {
         super.onDestroy()
