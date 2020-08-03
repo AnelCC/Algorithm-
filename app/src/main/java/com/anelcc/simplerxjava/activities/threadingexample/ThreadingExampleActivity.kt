@@ -9,7 +9,9 @@ import com.anelcc.simplerxjava.modellayer.entities.Friend
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_threading_example.*
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,11 +34,9 @@ class ThreadingExampleActivity : AppCompatActivity() {
     }
 
     private fun threadingExamples() {
-        threading()
-        //threading2()
+        //threading()
+        threading2()
     }
-
-
 
 
     private fun threading() {
@@ -56,28 +56,35 @@ class ThreadingExampleActivity : AppCompatActivity() {
     private fun threading2() {
         val single = getResult()
 
+
+        //you would think that the observeOn block determines what the observable runs on and
+        // the subscribeOn block determines what the subscription runs on.
+        // But it's the opposite.
+        // Just remember that if you want your subscription block on the main thread use "observeOn".
+        // If you want your "observable" part to run on a specific thread use the subscribeOn method
+        // and always try to "observeOn" the main thread for your UI elements.
         single
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .observeOn(Schedulers.newThread())
-//                .subscribeOn(Schedulers.computation())
-                .subscribe{ result ->
-                    println("🚦 current thread: ${Thread.currentThread().id}")
-                    println("⁉️🐢 is on UI thread: ${Thread.currentThread().id == mainThreadId}")
-                    print("result: ${result}")
-                }.disposedBy(bag)
+            .observeOn(AndroidSchedulers.mainThread())
+            //.observeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.computation())
+            .subscribe{ result ->
+                println("🚦 current thread: ${Thread.currentThread().id}")
+                println("⁉️🐢 is on UI thread: ${Thread.currentThread().id == mainThreadId}")
+                print("result: ${result}")
+            }.disposedBy(bag)
     }
 
     fun getResult(): Observable<String> {
         return Observable.create { observer ->
-//            launch {
-//                delay(3000)
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(3000)
 
                 println("🚦 current thread: ${Thread.currentThread().id}")
                 println("⁉️🐖 is on UI thread: ${Thread.currentThread().id == mainThreadId}")
 
                 observer.onNext("some result")
                 observer.onComplete()
-//            }
+            }
         }
     }
 

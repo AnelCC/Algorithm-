@@ -182,3 +182,14 @@ RecyclerViews can only show one type of item? FALSE
 Feedback
 No. This video was all about how to show multiple types of items in the RecyclerView
 -------------------------------------------------------------------------------------------------
+
+It doesn't matter what thread you update the UI on? FALSE
+
+Feedback
+UI updates must be on the main thread.
+-------------------------------------------------------------------------------------------------
+What does observeOn do vs. subscribeOn
+
+Feedback
+The observeOn() method tells the subscription what thread to run on and,
+while the onSubscribe() method tells the observable block what thread to run on.
