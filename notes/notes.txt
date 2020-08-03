@@ -135,3 +135,25 @@ Feedback
 True! We can just return Single's and let the upper layers worry about the results or errors.
 Other layers will simple be pass through layers.
 -------------------------------------------------------------------------------------------------
+It's possible to group a bunch of tasks using Observable.zip? TRUE
+
+Feedback
+Yes. This allows us to group several API calls into a single result.
+-------------------------------------------------------------------------------------------------
+When Zipping observables that have errors, use the following to avoid crashes:
+USE THE onErrorReturn() METHOD.
+
+Feedback
+Without this, it's hard to catch a fatal error in observables
+-------------------------------------------------------------------------------------------------
+RxJava works well with optionals? FALSE
+
+Feedback
+Sadly, It doesn't works well with optionals. You have to wrap them in a NullBox of some kind.
+-------------------------------------------------------------------------------------------------
+onError receives exceptions, but only once? TRUE
+
+Feedback
+Right, onError will trigger once then the observable dies.
+Any other onError event that gets pushed will crash the app.
+-------------------------------------------------------------------------------------------------

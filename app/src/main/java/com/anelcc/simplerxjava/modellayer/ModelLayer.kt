@@ -1,10 +1,12 @@
 package com.anelcc.simplerxjava.modellayer
 
 import com.anelcc.simplerxjava.modellayer.entities.Message
+import com.anelcc.simplerxjava.modellayer.entities.Person
 import com.anelcc.simplerxjava.modellayer.networklayer.NetworkLayer
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PersistenceLayer
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PhotoDescription
 import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
 import io.reactivex.Single
 
 //Now the model layer for us has our network piece and our persistent piece which really is our database portion of this.
@@ -51,5 +53,9 @@ class ModelLayer {
     //New Way use a way more reactive process
     fun getMessagesRx(): Single<List<Message>> {
         return networkLayer.getMessagesRx()
+    }
+
+    fun loadInfoFor(people: List<Person>): Observable<List<String>> {
+        return networkLayer.loadInfoFor(people)
     }
 }

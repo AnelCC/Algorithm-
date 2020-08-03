@@ -107,4 +107,5 @@ but if you always observe on the main thread right before you subscribe you won'
 - Room
 - Pattern designs
 - Retrofit
+- Kittinunf (Result) read [here](https://github.com/kittinunf/Result)
 
