@@ -75,3 +75,22 @@ Correct. Many tasks are something you would trigger only once.
 Sometimes you don't care about the value, and usually you want to know if there are any errors.
 You will see these a lot more often than just a plain old Observable.
 -------------------------------------------------------------------------------------------------
+What is JsonPlaceholder? a convenient webserver for mocking JSON API calls
+
+Feedback
+Yes! Need to write something for an endpoint that doesn't exist?
+JsonPlaceholder can be used and even changed to load whatever JSON data you need.
+-------------------------------------------------------------------------------------------------
+It's better to not use a Single with network calls? FALSE
+
+Feedback
+Right, Singles are great for one off tasks such as network calls.
+-------------------------------------------------------------------------------------------------
+
+How are events in Singles Different from Relay's, Subjects, and
+Observables? The have onSuccess instead of onNext.
+
+Feedback
+Yes, the callback signature has an onSuccess event to work with instead of onNext
+-------------------------------------------------------------------------------------------------
+
