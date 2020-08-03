@@ -7,8 +7,12 @@ import com.anelcc.simplerxjava.R
 import com.anelcc.simplerxjava.common.disposedBy
 import com.anelcc.simplerxjava.modellayer.entities.Friend
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_threading_example.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ThreadingExampleActivity : AppCompatActivity() {
 
@@ -28,8 +32,8 @@ class ThreadingExampleActivity : AppCompatActivity() {
     }
 
     private fun threadingExamples() {
-//        threading()
-        threading2()
+        threading()
+        //threading2()
     }
 
 
@@ -37,14 +41,14 @@ class ThreadingExampleActivity : AppCompatActivity() {
 
     private fun threading() {
         presenter.friends
-//                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread()) //for rxJava said run in the main threat
                 .subscribe { items ->
                     println("🚦 current thread: ${Thread.currentThread().id}")
                     println("⁉️🌲 is on UI thread: ${Thread.currentThread().id == mainThreadId}")
 
-//                    launch(UI) {
+//                    GlobalScope.launch(Dispatchers.Main) {
                         updateList(items)
-//                    }
+//                   }
                 }.disposedBy(bag)
     }
 

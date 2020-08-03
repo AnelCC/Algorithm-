@@ -3,10 +3,7 @@ package com.anelcc.simplerxjava.activities.threadingexample
 import com.anelcc.simplerxjava.modellayer.entities.Friend
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class ThreadingExamplePresenter {
 
@@ -51,7 +48,7 @@ class ThreadingExamplePresenter {
                     Friend("Dolly", "Delapaz"),
                     Friend("Juliane", "Jobin"))
 
-//            launch(UI) {
+//            GlobalScope.launch(Dispatchers.Main) {
                 friends.accept(newFriends)
 //            }
         }
