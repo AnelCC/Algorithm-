@@ -79,3 +79,32 @@ The following are the different types of Observables in RxJava
 - Single: Single is an Observable which only emits one item or throws an error. Single emits only one value and applying some of the operator makes no sense.
 - Maybe: Maybe is similar to Single but this time, it allows your observable the ability to not emit any item at all. The MaybeObserver is defined as follows.
 - Completable: This observable is only concerned about two things, if some action is executed or an error is encountered.
+
+#### RxJava and Architecture Guidelines
+- Async APIs (methods) vs sync.
+- Return Observables when is posible.
+- Observing on the main thread in view layer.
+
+The first thing is it's easier if you design all your APIs as Asynchronous methods instead of returning a value directly.
+This makes a lot of sense when working with the model layer and below.
+Generally network, database, and file I/O tasks tend to be longer running, and an Asynchronous API keeps the model layer from blocking the UI.
+So even if your database method returns immediately, it would be easier if all consumers are using the same type of API, I.e. asynchronous,
+and assume the callback will be used whenever the data is ready.
+Now I'm saying callbacks, but the second guideline is to return observables whenever possible.
+
+Return Observables when is posible. The sooner the upper layers can manage subscriptions as opposed to providing lambdas and delegates.
+This simplifies your code, keeping your classes free from interfaces, delegates, and lambdas, while containing subscriptions.
+
+Always make sure you're observing on the main thread.
+This means that your subscription block will be triggered on the main thread and it's easy to forget,
+but if you always observe on the main thread right before you subscribe you won't have any problems. I
+
+
+
+
+- Kotlin
+- RxJava
+- Room
+- Pattern designs
+- Retrofit
+

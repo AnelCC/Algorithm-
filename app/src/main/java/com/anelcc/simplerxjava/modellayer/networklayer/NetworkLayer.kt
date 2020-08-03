@@ -5,6 +5,7 @@ import com.anelcc.simplerxjava.common.VoidLambda
 import com.anelcc.simplerxjava.modellayer.entities.Message
 import com.anelcc.simplerxjava.modellayer.networklayer.EndpointInterfaces.JsonPlaceHolder
 import com.anelcc.simplerxjava.modellayer.networklayer.helpers.ServiceGenerator
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,15 +24,29 @@ class NetworkLayer {
         placeHolderApi = ServiceGenerator.createService(JsonPlaceHolder::class.java)
     }
 
+    //region End Point - Fully Rx
+    fun getMessageRx(articleId: String): Single<Message> {
+        return placeHolderApi.getMessageRx(articleId) //
+    }
+
+    fun getMessagesRx(): Single<List<Message>> {
+        return placeHolderApi.getMessagesRx()
+    }
+
+    fun postMessageRx(message: Message): Single<Message> {
+        return placeHolderApi.postMessageRx(message)
+    }
+
 
     //region End Point - SemiRx Way
-
     fun getMessages(success: MessagesLambda, failure: StringLambda) {
+        // give as a callback that will return a list of Messages
         val call = placeHolderApi.getMessages()
 
         call.enqueue(object: Callback<List<Message>> {
             override fun onResponse(call: Call<List<Message>>?, response: Response<List<Message>>?) {
                 val article = parseRespone(response)
+                //it parse correctly we will return articles
                 success(article)
             }
 
