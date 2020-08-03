@@ -1,0 +1,77 @@
+Questions notes.
+
+-------------------------------------------------------------------------------------------------
+
+What languages are included in the ReactiveX Family?
+Java, Kotlin, Swift, Lua, C++, C#, Ruby, PHP, Python, Javascript
+
+Feedback
+That's Right! ReactiveX covers a ton of languages across many different platforms.
+-------------------------------------------------------------------------------------------------
+
+Observables are only used for looping through arrays?  is FALSE
+
+Feedback
+Correct!
+They can be used to handle user input, be notified when a Network Task has completed, and so much more.
+-------------------------------------------------------------------------------------------------
+
+What are the 3 levels of Observables based on complexity?
+Relays, Subjects, Observables
+
+Feedback
+Nice! Start with relays, if you need errors or completion events, use subjects, otherwise use observables.
+-------------------------------------------------------------------------------------------------
+
+Relays only give values to subscriptions? is TRUE
+
+Feedback
+One reason for using a relay is that you can get the value any time by using
+`.value` and can set it by using `.accept(newValue)`
+-------------------------------------------------------------------------------------------------
+
+Subjects can error out and complete, but Relays don't.? is TRUE
+
+Feedback
+This is the major difference between Relays and Subjects.
+-------------------------------------------------------------------------------------------------
+
+onError can handle multiple exceptions.? is FALSE
+
+Feedback
+Your right. Careful here, a second error/exception will crash the application.
+-------------------------------------------------------------------------------------------------
+
+onNext Events will continue to come in after an onError event is triggered. is FALSE
+
+Feedback
+Correct. Once an error occurs, your Subject dies a horrible death (i.e. no more events).
+-------------------------------------------------------------------------------------------------
+
+You must always use onComplete events? is FALSE
+
+Feedback
+Yup, it's completely optional.
+-------------------------------------------------------------------------------------------------
+
+When would you use Observable.create()? For a Network Call
+
+Feedback
+Yes! I'd say don't overuse them, and keep things simple.
+Complex Tasks are a great place for creating an Observable from scratch.
+-------------------------------------------------------------------------------------------------
+
+Observable.fromArray() is the same as a plain old for loop? is FALSE
+
+Feedback
+Observables just prepare the values to be consumed by a subscriber.
+They are a stream of single points of data that changes over time - not an array at all.
+And no code is executed until we have a subscriber.
+-------------------------------------------------------------------------------------------------
+Traits use rare and useless.? is FALSE
+
+Feedback
+Correct. Many tasks are something you would trigger only once.
+Sometimes you don't care about the value, and usually you want to know if there are any errors.
+You will see these a lot more often than just a plain old Observable.
+-------------------------------------------------------------------------------------------------

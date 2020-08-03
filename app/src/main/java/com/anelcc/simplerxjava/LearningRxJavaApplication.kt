@@ -6,6 +6,7 @@ import com.anelcc.simplerxjava.common.fromJson
 import com.anelcc.simplerxjava.modellayer.persistencelayer.LocalDatabase
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PersistenceLayer
 import com.anelcc.simplerxjava.modellayer.persistencelayer.PhotoDescription
+import com.anelcc.simplerxjava.simpleexamples.SimpleRX
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +20,15 @@ class LearningRxJavaApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         println("Simple App being used.")
 
         setupDatabase()
-    }
 
-    //region Database Setup Methods
+        // SimpleRX.simpleValues()
+        //SimpleRX.subjects()
+        SimpleRX.basicObservable()
+
+    }
 
     fun setupDatabase(){
         database = Room.databaseBuilder(this, LocalDatabase::class.java, "LearningRxJavaLocalDatabase").build()
