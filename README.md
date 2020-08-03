@@ -1,4 +1,4 @@
-# Algorithm-
+# RxJava
 RxJava can be simply thought of as a library that gives us an easy to use observer pattern. This means that we have a process to be notified of when data changes, when a task completes, or if there are any errors that happen along the way. 
 
  
